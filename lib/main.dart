@@ -48,7 +48,7 @@ class _BusComponentState extends State<BusComponent> {
       children: [
         Flexible(
           flex: 2,
-          child: BusSearch(tom: tom),
+          child: BusSearch(requestCodigoAtualizado: requestCodigoAtualizado),
         ),
         Flexible(
           child: DirectionBus(atualizaCodigoDirecao: atualizaCodigoDirecao),
@@ -63,7 +63,7 @@ class _BusComponentState extends State<BusComponent> {
     });
   }
 
-  void tom(String value) async {
+  void requestCodigoAtualizado(String value) async {
     print(codigoDirecao);
     print(value);
     if (value.isNotEmpty && value.length > 3) {
@@ -74,8 +74,9 @@ class _BusComponentState extends State<BusComponent> {
 
 class BusSearch extends StatefulWidget {
   // const BusSearch({Key? key}) : super(key: key);
-  Function tom;
-  BusSearch({Key? key, required this.tom}) : super(key: key);
+  Function requestCodigoAtualizado;
+  BusSearch({Key? key, required this.requestCodigoAtualizado})
+      : super(key: key);
 
   @override
   State<BusSearch> createState() => _BusSearchState();
@@ -87,7 +88,7 @@ class _BusSearchState extends State<BusSearch> {
     return TextField(
       keyboardType: TextInputType.text,
       onSubmitted: (value) {
-        widget.tom(value);
+        widget.requestCodigoAtualizado(value);
       },
       style: TextStyle(
         color: Colors.grey.shade500,
@@ -108,7 +109,7 @@ class _BusSearchState extends State<BusSearch> {
             fontSize: 14,
             color: Colors.grey.shade500,
           ),
-          hintText: 'Linha de onubus'),
+          hintText: 'Linha de ônibus'),
     );
   }
 }

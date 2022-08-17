@@ -1,3 +1,4 @@
+import 'dart:convert';
 import './request_service.dart';
 
 const apiKey =
@@ -9,7 +10,8 @@ class SpTrans {
   Map<String, String> endpoints = {
     'autenticar': '${baseUrl}/Login/Autenticar?token=${apiKey}',
     'linhaSentido': '${baseUrl}/Linha/BuscarLinhaSentido',
-    'buscarParada': '${baseUrl}/Parada/Buscar'
+    'buscarParada': '${baseUrl}/Parada/Buscar',
+    'buscarTodasPosicoes': '${baseUrl}/Posicao'
   };
 
   Future autenticar() async {
@@ -24,58 +26,20 @@ class SpTrans {
         '${endpoints["linhaSentido"]}?termosBusca=${busca}&sentido=${sentido}';
     var response = await RequestService.get(url: url, headers: headers);
     print(response.body);
+    return (json.decode(response.body));
   }
 
-  Future getParadas(String busca) async {
-    // pontos de parada da cidade de São Paulo
-    var url = '${endpoints["buscarParada"]}?termosBusca=${busca}';
-    var response = await RequestService.get(url: url, headers: headers);
-    print(response.body);
-  }
+  // Future getParadas(String busca) async {
+  //   // pontos de parada da cidade de São Paulo
+  //   var url = '${endpoints["buscarParada"]}?termosBusca=${busca}';
+  //   var response = await RequestService.get(url: url, headers: headers);
+  //   print(response.body);
+  // }
 
-  // nao alterados
-
-//   Future getParadasPorLinha() async {
-//     // Realiza uma busca por todos os pontos de parada atendidos por uma determinada linha.
-//     var url = Uri.parse(
-//         '${baseUrl}/Parada/BuscarParadasPorLinha?codigoLinha={codigoLinha}');
-//     var response = await http.get(url);
-//     print(response.body);
-//     // return response.body;
-//   }
-
-//   Future getPosicaoTodasLinhas() async {
-//     //retornar a posição exata de cada veículo de qualquer linha de ônibus
-//     var url = Uri.parse('${baseUrl}/Posicao');
-//     var response = await http.get(url);
-//     print(response.body);
-//     // return response.body;
-//   }
-
-//   Future getPosicaoLinha() async {
-//     //Retorna uma lista com todos os veículos de uma determinada linha com suas devidas posições
-//     var url = Uri.parse('${baseUrl}/Posicao/Linha?codigoLinha=8000');
-//     var response = await http.get(url);
-//     print(response.body);
-//     // return response.body;
-//   }
-
-//   Future getPrevisaoLinhaNoPonto() async {
-//     //Retorna uma lista com a previsão de chegada dos veículos da linha informada que atende ao ponto de parada informado.
-//     var url = Uri.parse(
-//         '${baseUrl}/Previsao?codigoParada={codigoParada}&codigoLinha={codigoLinha}');
-//     var response = await http.get(url);
-//     print(response.body);
-//     // return response.body;
-//   }
-
-//   Future getPrevisaoTodasLinhasNoPonto() async {
-//     //Retorna uma lista com a previsão de chegada dos veículos de cada uma das linhas que atendem ao ponto de parada informado.
-//     var url =
-//         Uri.parse('${baseUrl}/Previsao/Parada?codigoParada={codigoParada}');
-//     var response = await http.get(url);
-//     print(response.body);
-//     // return response.body;
-//   }
-// }
+  // Future getPosicaoTodasLinhas() async {
+  //   //retornar a posição exata de cada veículo de qualquer linha de ônibus
+  //   var url = '${endpoints["buscarTodasPosicoes"]}';
+  //   var response = await RequestService.get(url: url, headers: headers);
+  //   return (json.decode(response.body));
+  // }
 }

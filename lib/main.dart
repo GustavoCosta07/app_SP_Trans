@@ -9,10 +9,15 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  int codigoDirecao = 1;
-
+class MyApp extends StatefulWidget {
   MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  dynamic dados = null;
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +28,24 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.grey.shade900,
           title: Container(
             height: 38,
-            child: const BusComponent(),
+            child: BusComponent(getSPdados: getSPdados),
           ),
         ),
-        body: const MapPage(),
+        body: MapPage(),
       ),
     );
+  }
+
+  void getSPdados(dados) {
+    setState(() {
+      this.dados = dados;
+    });
   }
 }
 
 class BusComponent extends StatefulWidget {
-  const BusComponent({Key? key}) : super(key: key);
+  Function getSPdados;
+  BusComponent({Key? key, required this.getSPdados}) : super(key: key);
 
   @override
   State<BusComponent> createState() => _BusComponentState();
@@ -67,7 +79,10 @@ class _BusComponentState extends State<BusComponent> {
     print(codigoDirecao);
     print(value);
     if (value.isNotEmpty && value.length > 3) {
-      await spTrans.getLinhaSentido(value, codigoDirecao.toString());
+      var dados =
+          await spTrans.getLinhaSentido(value, codigoDirecao.toString());
+
+      widget.getSPdados(dados);
     }
   }
 }
@@ -139,7 +154,7 @@ class _DirectionBusState extends State<DirectionBus> {
           codigoDirecao = int.parse(value.toString());
         });
       },
-      items: <DropdownMenuItem<int>>[
+      items: const <DropdownMenuItem<int>>[
         DropdownMenuItem(
           child: Text('Ida'),
           value: 1,

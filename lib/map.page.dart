@@ -19,7 +19,7 @@ class _MapPageState extends State<MapPage> {
         initialCameraPosition: const CameraPosition(
           // lat long sao paulo
           target: LatLng(-23.533773, -46.625290),
-          zoom: 11.0,
+          zoom: 15.0,
         ),
         onMapCreated: (GoogleMapController controller) {
           _add(-23.678712500000003, -46.65674, "8000", "METRÔ JABAQUARA");
